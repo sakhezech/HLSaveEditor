@@ -2,6 +2,7 @@ import os
 import sys
 
 import getpass
+import platform
 import glfw
 import imgui
 from PIL import Image
@@ -17,8 +18,12 @@ if os.getenv("XDG_SESSION_TYPE") == "wayland":
 if "path.txt" in os.listdir("."):
     with open("path.txt", "r") as f: PATH_TO_SAVES = f.readline().rstrip()
 else:
-    PATH_TO_SAVES = f"C:\\Users\\{getpass.getuser()}\\AppData\\Local\\HyperLightDrifter"
-
+    match platform.system():
+        case "Windows": PATH_TO_SAVES = f"C:\\Users\\{getpass.getuser()}\\AppData\\Local\\HyperLightDrifter"
+        case "Darwin": PATH_TO_SAVES = f"/Users/{getpass.getuser()}/Library/Application Support/com.HeartMachine.HyperLightDrifter"
+        case "Linux": PATH_TO_SAVES = f"/home/{getpass.getuser()}/.config/HyperLightDrifter"
+        case _: raise ValueError("Please specify savefile path with a 'path.txt'")
+    
 LOADED_SAVE: HLDSaveFile = None # type: ignore
 
 class GLOBAL:
