@@ -19,9 +19,15 @@ if "path.txt" in os.listdir("."):
     with open("path.txt", "r") as f: PATH_TO_SAVES = f.readline().rstrip()
 else:
     match platform.system():
-        case "Windows": PATH_TO_SAVES = f"C:\\Users\\{getpass.getuser()}\\AppData\\Local\\HyperLightDrifter"
-        case "Darwin": PATH_TO_SAVES = f"/Users/{getpass.getuser()}/Library/Application Support/com.HeartMachine.HyperLightDrifter"
-        case "Linux": PATH_TO_SAVES = f"/home/{getpass.getuser()}/.config/HyperLightDrifter"
+        case "Windows":
+            PATH_TO_SAVES = f"C:\\Users\\{getpass.getuser()}\\AppData\\Local\\HyperLightDrifter"
+            SAVELIFE_NAME_FORMAT = "HyperLight_RecordOfTheDrifter_{}.sav"
+        case "Darwin":
+            PATH_TO_SAVES = f"/Users/{getpass.getuser()}/Library/Application Support/com.HeartMachine.HyperLightDrifter"
+            SAVELIFE_NAME_FORMAT = "hyperlight_recordofthedrifter_{}.sav"
+        case "Linux":
+            PATH_TO_SAVES = f"/home/{getpass.getuser()}/.config/HyperLightDrifter"
+            SAVELIFE_NAME_FORMAT = "hyperlight_recordofthedrifter_{}.sav"
         case _: raise ValueError("Please specify savefile path with a 'path.txt'")
     
 LOADED_SAVE: HLDSaveFile = None # type: ignore
@@ -214,7 +220,7 @@ def handle_str(val: str, title: str, salt: str = "") -> str:
 def load(save_name: str):
     global LOADED_SAVE
     try:
-        LOADED_SAVE = HLDSaveFile.load(os.path.join(PATH_TO_SAVES, f"HyperLight_RecordOfTheDrifter_{save_name}.sav"))
+        LOADED_SAVE = HLDSaveFile.load(os.path.join(PATH_TO_SAVES, SAVELIFE_NAME_FORMAT.format(save_name)))
         LOADED_SAVE.cCapes.append("0")
         LOADED_SAVE.cSwords.append("0")
         LOADED_SAVE.cShells.append("0")
@@ -226,13 +232,13 @@ def save(save_name: str):
     try:
         if LOADED_SAVE is not None:
             if LOADED_SAVE.checkRoom not in LOADED_SAVE.rooms: LOADED_SAVE.rooms.append(str(LOADED_SAVE.checkRoom))
-            LOADED_SAVE.dump(os.path.join(PATH_TO_SAVES, f"HyperLight_RecordOfTheDrifter_{save_name}.sav"))
+            LOADED_SAVE.dump(os.path.join(PATH_TO_SAVES, SAVELIFE_NAME_FORMAT.format(save_name)))
     except:
         error("Couldn't save savefile")
 
 def delete(save_name: str):
     try:
-        os.remove(os.path.join(PATH_TO_SAVES, f"HyperLight_RecordOfTheDrifter_{save_name}.sav"))
+        os.remove(os.path.join(PATH_TO_SAVES, SAVELIFE_NAME_FORMAT.format(save_name)))
     except:
         error("Couldn't remove savefile")
 
@@ -263,7 +269,7 @@ def frame_commands():
         imgui.set_next_window_size(850-200-250,220)
         imgui.begin("Saves")
 
-        all_savefiles = [file_name.replace("HyperLight_RecordOfTheDrifter_", "").replace(".sav", "") for file_name in os.listdir(PATH_TO_SAVES) if "HyperLight_RecordOfTheDrifter_" in file_name]
+        all_savefiles = [file_name.split('_', 2)[2].replace(".sav", "") for file_name in os.listdir(PATH_TO_SAVES) if "hyperlight_recordofthedrifter_" in file_name.lower()]
         imgui.columns(2)
         imgui.begin_child("Savess")
         for save_name in all_savefiles:
