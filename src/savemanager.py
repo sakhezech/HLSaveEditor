@@ -540,8 +540,8 @@ def impl_glfw_init():
     
     window = glfw.create_window(int(width), int(height), window_name, None, None)
     glfw.make_context_current(window)
-    with Image.open(os.path.abspath(os.path.join(os.path.dirname(__file__), "res", "icon.ico"))) as icon:
-        glfw.set_window_icon(window, 1, icon)
+    # with Image.open(os.path.abspath(os.path.join(os.path.dirname(__file__), "res", "icon.ico"))) as icon:
+    #     glfw.set_window_icon(window, 1, icon)
 
     if not window:
         glfw.terminate()
