@@ -13,6 +13,7 @@ from typing import Any
 
 if os.getenv("XDG_SESSION_TYPE") == "wayland":
     os.environ["XDG_SESSION_TYPE"] = "x11"
+USE_PROTON = os.getenv('SAVEMANAGER_PROTON', None)
 
 if "path.txt" in os.listdir("."):
     with open("path.txt", "r") as f: PATH_TO_SAVES = f.readline().rstrip()
@@ -25,8 +26,12 @@ else:
             PATH_TO_SAVES = f"/Users/{getpass.getuser()}/Library/Application Support/com.HeartMachine.HyperLightDrifter"
             SAVELIFE_NAME_FORMAT = "hyperlight_recordofthedrifter_{}.sav"
         case "Linux":
-            PATH_TO_SAVES = f"/home/{getpass.getuser()}/.config/HyperLightDrifter"
-            SAVELIFE_NAME_FORMAT = "hyperlight_recordofthedrifter_{}.sav"
+            if USE_PROTON:
+                PATH_TO_SAVES = f"/home/{getpass.getuser()}/.steam/steam/steamapps/compatdata/257850/pfx/drive_c/users/steamuser/AppData/Local/HyperLightDrifter"
+                SAVELIFE_NAME_FORMAT = "HyperLight_RecordOfTheDrifter_{}.sav"
+            else:
+                PATH_TO_SAVES = f"/home/{getpass.getuser()}/.config/HyperLightDrifter"
+                SAVELIFE_NAME_FORMAT = "hyperlight_recordofthedrifter_{}.sav"
         case _: raise ValueError("Please specify savefile path with a 'path.txt'")
     
 LOADED_SAVE: HLDSaveFile = None # type: ignore
