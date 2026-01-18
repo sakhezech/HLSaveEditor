@@ -5,13 +5,20 @@ version = 'v0.0.1'
 dependencies = ['imgui[glfw]==2.0.0', 'hldlib==0.1.1']
 
 [project.optional-dependencies]
-dev = ['pyimgui-stubs==0.0.2']
+dev = ['pyimgui-stubs==0.0.2', 'hatch==1.16', 'faterunner']
 
 [project.scripts]
 savemanager = 'savemanager:main'
 
 [project.urls]
 Homepage = 'https://github.com/sakhezech/HLSaveEditor'
+
+[tool.faterunner.targets.build]
+commands = ['PYAPP_SKIP_INSTALL="1" PYAPP_IS_GUI="1" hatch build -t binary']
+options = { shell = true }
+
+[tool.hatch.build.targets.binary]
+pyapp-version = '0.29.0'
 
 [build-system]
 requires = ['hatchling']
