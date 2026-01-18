@@ -1,0 +1,27 @@
+[project]
+name = 'savemanager'
+readme = 'README.md'
+requires-python = '==3.11'
+version = 'v0.0.1'
+dependencies = [
+  'altgraph==0.17.3',
+  'glfw==2.5.9',
+  'hldlib==0.1.1',
+  'imgui==1.4.1',
+  'pefile==2023.2.7',
+  'Pillow==9.5.0',
+  'pyinstaller==5.9.0',
+  'pyinstaller-hooks-contrib==2023.1',
+  'PyOpenGL==3.1.6',
+  'pywin32-ctypes==0.2.0',
+]
+
+[project.scripts]
+savemanager = 'savemanager:main'
+
+[project.urls]
+Homepage = 'https://github.com/sakhezech/HLSaveEditor'
+
+[build-system]
+requires = ['hatchling']
+build-backend = 'hatchling.build'
