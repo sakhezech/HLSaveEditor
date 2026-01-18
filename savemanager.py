@@ -5,7 +5,6 @@ import getpass
 import platform
 import glfw
 import imgui
-from PIL import Image
 import OpenGL.GL as gl
 from imgui.integrations.glfw import GlfwRenderer
 
@@ -536,7 +535,6 @@ def impl_glfw_init():
     glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
     glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
     glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, gl.GL_TRUE)
-    glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
     
     window = glfw.create_window(int(width), int(height), window_name, None, None)
     glfw.make_context_current(window)
