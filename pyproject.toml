@@ -2,6 +2,7 @@
 name = 'savemanager'
 readme = 'README.md'
 version = 'v0.0.1'
+requires-python = '>=3.10,<3.13'
 dependencies = ['imgui[glfw]==2.0.0', 'hldlib==0.1.1']
 
 [project.optional-dependencies]
